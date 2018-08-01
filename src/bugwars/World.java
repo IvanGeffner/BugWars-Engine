@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 class World {
 	
 	private Team winner = null;
-	private String winCondition = null;
+	private WinCondition winCondition = null;
 
 	private int round;
 	private GameLocation[][] teamGameLocations;
@@ -57,8 +57,10 @@ class World {
 
 	// Basic getters and setters
 	Team getWinner() { return winner; }
-	String getWinCondition() { return winCondition; }
-    void setWinner(Team team, String winCondition) {
+	WinCondition getWinCondition() { return winCondition; }
+
+	void setWinner(Team team, WinCondition winCondition) {
+	    if (winner != null) return;
     	winner = team;
     	this.winCondition = winCondition;
     }
@@ -117,7 +119,7 @@ class World {
 		if (unit.getType() == UnitType.QUEEN){
 			unit.getTeam().removeQueen();
 			if (unit.getTeam().getQueens() == 0) {
-				setWinner(unit.getTeam().getOpponent(), "Destruction!");
+				setWinner(unit.getTeam().getOpponent(), WinCondition.DESTRUCTION);
 			}
 		}
 		IDs.remove(unit.getUnitId());
@@ -300,8 +302,7 @@ class World {
 		}
 
 		if (winners.size() <= 1) {
-			winner = getFirstElement(winners);
-			winCondition = "Single player";
+			setWinner(getFirstElement(winners), WinCondition.SINGLE_PLAYER);
 			return;
 		}
 
@@ -323,8 +324,7 @@ class World {
 		}
 		
 		if (winners.size() <= 1) {
-			winner = getFirstElement(winners);
-			winCondition = "Number of queens";
+			setWinner(getFirstElement(winners), WinCondition.NB_QUEENS);
 			return;
 		}
 		
@@ -360,8 +360,7 @@ class World {
 		}
 
 		if (winners.size() <= 1) {
-			winner = getFirstElement(winners);
-			winCondition = "Total HP of queens";
+			setWinner(getFirstElement(winners), WinCondition.HP_QUEENS);
 			return;
 		}
 
@@ -397,8 +396,7 @@ class World {
 		}
 		
 		if (winners.size() <= 1) {
-			winner = getFirstElement(winners);
-			winCondition = "Sum of all resources and units";
+			setWinner(getFirstElement(winners), WinCondition.VALUE);
 			return;
 		}
 
@@ -407,8 +405,7 @@ class World {
 		int cont = 0;
 		for (Team key : winners){
 			if (cont == randomNum){
-				winner = key;
-				winCondition = "Random";
+				setWinner(key, WinCondition.RANDOM);
 				break;
 			}
 			++cont;

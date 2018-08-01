@@ -10,6 +10,7 @@ class MapReader {
 
     private GameLocation[][] teamGameLocations;
     private Cell[][] map = null;
+    private Symmetry symmetry;
     
     void loadMap(String mapName) throws NumberFormatException, IOException {
         FileReader fr = new FileReader(dirPath + mapName + ".txt");
@@ -34,7 +35,10 @@ class MapReader {
         GameLocation.offsetY = Integer.parseInt(offset[1]);
 
         // Read symmetry
-        mapReader.readLine().trim().split("\\s+");
+        String[] sym = mapReader.readLine().trim().split("\\s+");
+        for (int i = 0; i < Symmetry.values().length; ++i){
+            if (sym[0].equals(Symmetry.values()[i].symName)) symmetry = Symmetry.values()[i];
+        }
 
         // Read walls
         int nWalls = Integer.parseInt(mapReader.readLine());

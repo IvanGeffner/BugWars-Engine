@@ -107,4 +107,9 @@ public class Team {
 	int readArray(int i){
 		return teamArray[i];
 	}
+
+	static void reset(){
+		nextId = 0;
+	}
+
 }

@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 class Unit extends Thread {
 	
 	UnitManager unitManager;
+
+	private ThreadManager threadManager;
 	
 	private Object unitPlayer;
 	private Method unitPlayerRunMethod;
@@ -34,14 +36,14 @@ class Unit extends Thread {
 
 	int bytecodesUsed;
 	
-	Unit(UnitManager unitManager, Team team, UnitType type) {
+	Unit(UnitManager unitManager, Team team, UnitType type, boolean initial) {
 		id = Game.getInstance().world.getNewId();
 		
 		this.unitManager = unitManager;
 		this.team = team;
 		this.type = type;
 
-		if (type != UnitType.QUEEN) cocoonTurnsLeft = GameConstants.COCOON_TURNS;
+		if (!initial) cocoonTurnsLeft = GameConstants.COCOON_TURNS;
 		
 		health = type.maxHealth;
 		dead = false;
@@ -50,6 +52,9 @@ class Unit extends Thread {
 		unitController = new UnitController(this);
 
 		resetCooldowns();
+
+        threadManager = new ThreadManager(this);
+
 	}
 
 	void resetCooldowns() {
@@ -155,5 +160,9 @@ class Unit extends Thread {
 			if (Game.printWarnings) e.printStackTrace();
 		}
 	}
+
+    ThreadManager getThreadManager(){
+        return threadManager;
+    }
 
 }

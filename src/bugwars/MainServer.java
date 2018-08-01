@@ -4,7 +4,7 @@ import java.io.File;
 
 public class MainServer {
 	private static String packageName1, packageName2, mapName, gameId;
-	private static boolean printWarnings;
+	private static boolean printWarnings, challengeRun;
 
 	public static void main(String[] args) throws InterruptedException {
 		// Parameters
@@ -13,13 +13,14 @@ public class MainServer {
 		mapName = args[2];
 		gameId  = args[3];
 		printWarnings = (args[4].equals("1"));
+		challengeRun = (args[5].equals("1"));
 		// Run game
 		runGame();
 	}
 
 	private static void runGame() {
 		String logName = generateLogName();
-		Game g = Game.getInstance(packageName1, packageName2, mapName, logName, false, false, printWarnings);
+		Game g = Game.getInstance(packageName1, packageName2, mapName, logName, false, false, printWarnings, challengeRun);
 		g.start();
 		try {
 			g.join();

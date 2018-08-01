@@ -80,7 +80,7 @@ public class UnitController {
 	void sanityCheck() {
 		if (this != unit.unitManager.getCurrentUnit().getUnitController()){
 			if (Game.printWarnings) System.err.println("Player " + unit.getTeam().packageName + " is cheating!");
-			world.setWinner(unit.getTeam().getOpponent(), "Opponent cheated");
+			world.setWinner(unit.getTeam().getOpponent(), WinCondition.CHEATING);
 			yield();
 		}
 	}
@@ -763,7 +763,7 @@ public class UnitController {
 		}
 		unit.getTeam().addResources(-type.cost);
 		unit.spawn();
-		unit.unitManager.newUnit(unit.getTeam(), unit.getGameLocation().add(dir), unit, type);
+		unit.unitManager.newUnit(unit.getTeam(), unit.getGameLocation().add(dir), unit, type, false);
 	}
 
 	/**

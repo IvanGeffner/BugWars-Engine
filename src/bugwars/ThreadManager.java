@@ -15,24 +15,14 @@ class ThreadManager {
 	private Thread slave;
 	private boolean pausedMaster = true;
 	private boolean pausedSlave = true;
-	
-	// MultiSingleton pattern
-	private static Map<Thread, ThreadManager> instances = new HashMap<Thread, ThreadManager>();
 
 	static ThreadManager getRunningInstance() {
 		if (runningSlaveInstance != null) return runningSlaveInstance;
-		runningSlaveInstance = getInstance(runningSlave);
-		return runningSlaveInstance;
+		System.out.println("ERROR! this should not happen!");
+		return null;
 	}
 	
-	static ThreadManager getInstance(Thread slave) {
-		if (!instances.containsKey(slave)) {
-			instances.put(slave, new ThreadManager(slave));
-		}
-		return instances.get(slave);
-	}
-	
-	private ThreadManager(Thread _slave) {
+	ThreadManager(Thread _slave) {
 		unitManager = Game.getInstance().unitManager;
 		slave = _slave;
 	}
@@ -48,7 +38,6 @@ class ThreadManager {
 	}
 
 	static void eraseThread(){
-		ThreadManager.instances.remove(unitManager.getCurrentUnit());
 		unitManager.removeCurrentUnit();
 		resumeMaster(false);
 	}
@@ -141,7 +130,7 @@ class ThreadManager {
 		} else {
 			pausedMaster = true;
 			pausedSlave = false;
-			runningSlaveInstance = instances.get(runningSlave);
+			runningSlaveInstance = Game.getInstance().unitManager.getCurrentUnit().getThreadManager();
 		}
 	}
 
