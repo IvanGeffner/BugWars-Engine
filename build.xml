@@ -230,7 +230,7 @@
   </target>
 
 	<!-- Run tasks -->
-	<target name="run_bugwars" depends="instrument">
+	<target name="run" depends="instrument">
 		<!-- Parameters -->
 		<get_property prop="package1" />
 		<get_property prop="package2" />
@@ -253,7 +253,7 @@
 		</java>
 	</target>
 
-	<target name="run_bugwars_no_prints" depends="instrument">
+	<target name="run_no_prints" depends="instrument">
 		<!-- Parameters -->
 		<get_property prop="package1" />
 		<get_property prop="package2" />
@@ -276,7 +276,7 @@
 		</java>
 	</target>
 
-	<target name="run_bugwars_challenge" depends="instrument">
+	<target name="run_challenge" depends="instrument">
 		<!-- Parameters -->
 		<get_property prop="package1" />
 		<get_property prop="package2" />
@@ -297,54 +297,6 @@
 			<arg value="0" />
 			<arg value="1" />
 		</java>
-	</target>
-
-	<!-- Package tasks -->
-	<target name="package">
-		<!-- Parameters -->
-		<get_property prop="package" />
-		<!-- Echo -->
-		<echo message="Packaging source code" />
-		<!-- Clean, compile and run packager -->
-		<delete dir="${basedir}/build/classes/packager" />
-		<javac
-			srcdir="${basedir}/src/"
-			destdir="${basedir}/build/classes"
-			includes="packager/**"
-			includeAntRuntime="false">
-			<classpath refid="my_classpath" />
-		</javac>
-		<!-- Run -->
-		<java classname="packager.Main" failonerror="true" fork="yes">
-			<classpath refid="my_classpath" />
-			<arg value="${package}" />
-		</java>
-	</target>
-
-	<!-- Tasksmanager -->
-	<target name="compile_tasksmanager">
-		<!-- Clean and compile tasksmanager -->
-		<delete dir="${basedir}/build/classes/tasksmanager" />
-		<javac
-			srcdir="${basedir}/src/"
-			destdir="${basedir}/build/classes"
-			includes="tasksmanager/**"
-			includeAntRuntime="false">
-			<classpath refid="my_classpath" />
-		</javac>
-	</target>
-
-	<!-- Mactchmaker -->
-	<target name="compile_matchmaker">
-		<!-- Clean and compile matchmaker -->
-		<delete dir="${basedir}/build/classes/matchmaker" />
-		<javac
-			srcdir="${basedir}/src/"
-			destdir="${basedir}/build/classes"
-			includes="matchmaker/**"
-			includeAntRuntime="false">
-			<classpath refid="my_classpath" />
-		</javac>
 	</target>
 
 </project>

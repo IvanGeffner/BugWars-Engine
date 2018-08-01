@@ -20,9 +20,10 @@ class Main {
 	}
 
 	private static void runGame() {
-		if(!challengeRun) {
+		if (!challengeRun) {
+			String tmpLogName = generateTmpLogName();
 			String logName = generateLogName();
-			Game g = Game.getInstance(packageName1, packageName2, mapName, logName, true, true, printWarnings, challengeRun);
+			Game g = Game.getInstance(packageName1, packageName2, mapName, tmpLogName, true, true, printWarnings, challengeRun);
 			g.start();
 			try {
 				g.join();
@@ -30,28 +31,25 @@ class Main {
 				e.printStackTrace();
 				System.exit(1);
 			}
-		} else{
+			renameFolder(tmpLogName, logName);
+		} else {
 			String root = System.getProperty("user.dir");
 			String file_path = root + File.separator + "maps";
 			File folder = new File(file_path);
 
 			ArrayList<String> maps = new ArrayList<>();
-
 			File[] listOfFiles = folder.listFiles();
 			for (int i = 0; i < listOfFiles.length; i++) {
 				if (listOfFiles[i].isFile()) {
 					String filename = listOfFiles[i].getName();
-					//System.out.println("File " + listOfFiles[i].getName());
 					String[] parts = filename.split("\\.");
 					maps.add(parts[0]);
 				}
 			}
 
 			int wins1 = 0, wins2 = 0;
-
 			for (int i = 0; i < maps.size(); ++i){
 				String map = maps.get(i);
-
 				Game g = Game.getNewInstance(packageName1, packageName2, map, null, true, true, printWarnings, challengeRun);
 				g.start();
 				try {
@@ -64,8 +62,6 @@ class Main {
 					e.printStackTrace();
 					System.exit(1);
 				}
-
-
 				g = Game.getNewInstance(packageName2, packageName1, map, null, true, true, printWarnings, challengeRun);
 				g.start();
 				try {
@@ -78,23 +74,10 @@ class Main {
 					e.printStackTrace();
 					System.exit(1);
 				}
-
 			}
-
 			System.out.println("-----------------------------------------------------------");
 			System.out.println("Total victories " + packageName1 + ": " + wins1);
 			System.out.println("Total victories " + packageName2 + ": " + wins2);
-
-		}
-	}
-
-	private static void renameFolder(String current_name, String new_name) {
-		File dir = new File(current_name);
-		if (!dir.isDirectory()) {
-			System.err.println("Temporal game file not found");
-		} else {
-		  File newDir = new File(new_name);
-		  dir.renameTo(newDir);
 		}
 	}
 
@@ -128,5 +111,15 @@ class Main {
 			file = root + File.separator + "games" + File.separator + name + "_" + k;
 		}
 		return file.substring(0, file.length());
+	}
+
+	private static void renameFolder(String current_name, String new_name) {
+		File dir = new File(current_name);
+		if (!dir.isDirectory()) {
+			System.err.println("Temporal game file not found");
+		} else {
+		  File newDir = new File(new_name);
+		  dir.renameTo(newDir);
+		}
 	}
 }
