@@ -87,7 +87,7 @@ public class Team {
 		MyClassLoader cl = new MyClassLoader();
 		Class<?> unitPlayerClass = null;
     try {
-    	unitPlayerClass = cl.loadClass(packageName.toLowerCase() + ".UnitPlayer");
+    	unitPlayerClass = cl.loadClass(packageName + ".UnitPlayer");
 		} catch (ClassNotFoundException e) {
 			if (Game.printWarnings) {
 				System.err.println(e);
