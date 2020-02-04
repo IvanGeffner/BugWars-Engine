@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="antcomplete">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/cerebrus/antcomplete.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
